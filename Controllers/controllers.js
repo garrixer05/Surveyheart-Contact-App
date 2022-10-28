@@ -1,5 +1,7 @@
 const middleware = require('../middleware/middleware');
 const modelPackage = require('../models/models');
+const mongoose = require('mongoose')
+
 
 const a = modelPackage.dataModels();
 const B = a[0];
@@ -53,7 +55,23 @@ const updateContact = middleware.asyncWrapper(async (req, res, next) =>{
 
 });
 
+
+const deleteContact = middleware.asyncWrapper(async (req, res, next)=>{
+  let filter = req.params._id
+  console.log(req.params);
+  let _id = mongoose.Types.ObjectId(filter)
+  console.log(_id);
+  await B.findOneAndDelete({"_id":_id}, (err, doc)=>{
+    if (err){
+      console.log(err);
+    }
+    console.log(doc);
+  })
+  res.render()
+})
+
 module.exports = {
   getContact,
-  updateContact
+  updateContact,
+  deleteContact
 }

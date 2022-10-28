@@ -9,7 +9,7 @@
       <h4>Contact type : <%= type %></h4>
       <div class="btns">
         <button onclick='editCreate("e")' id="edit" class="btn-btns" type="submit" name="button">Edit</button>
-        <button class="btn-btns" type="submit" name="button">Delete</button>
+        <button onclick="deleteDoc()" class="btn-btns" type="submit" name="button">Delete</button>
       </div>
       <div id="bg-modal-2" class="bg-modal">
         <div class="modal-content">
@@ -38,6 +38,7 @@
 
 
   </div>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 </body>
 <%- include('partials/footer'); -%>

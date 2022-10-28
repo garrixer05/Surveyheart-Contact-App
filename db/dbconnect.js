@@ -3,10 +3,10 @@ const mongoose = require('mongoose');
 
 
 const MONGODB_uri = 'mongodb+srv://garrixer05:ankit123@cluster0.vm0qp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
+const MONGODB_uri2 = 'mongosh "mongodb+srv://cluster0.vm0qp.mongodb.net/myFirstDatabase" --apiVersion 1 --username garrixer05'
 
-
-module.exports = function connectdb() {
-    mongoose.connect(MONGODB_uri || 'mongodb://localhost/Contact', {
+const connectdb = async ()=>{
+  await mongoose.connect(MONGODB_uri || 'mongodb://localhost/Contact', {
     useNewUrlParser : true,
     useUnifiedTopology : true
   });
@@ -16,3 +16,4 @@ module.exports = function connectdb() {
   });
 
 }
+module.exports = connectdb

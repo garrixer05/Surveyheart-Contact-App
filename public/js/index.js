@@ -55,3 +55,12 @@ function editCreate (s) {
     document.getElementById('bg-modal-2').style.display = 'none';
   });
 }
+
+function deleteDoc() {
+  let url = window.location.href.split('/')
+  // let contact = url
+  let _id = url[url.length - 1]
+  fetch(`/api/v1/:contact/${_id}`,{
+      method:'DELETE'
+  })
+}

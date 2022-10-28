@@ -42,7 +42,6 @@ module.exports = function (app) {
 
 
 
-  // app.delete('/api/v1/:contact'){
 
 
 
@@ -60,5 +59,5 @@ module.exports = function (app) {
     modelPackage.modelSchema(type, contact, req, res);
   });
 
-  app.get('/api/v1/:contact/:_id', controller.getContact).put('/api/v1/:contact/:_id', controller.updateContact)
+  app.get('/api/v1/:contact/:_id', controller.getContact).put('/api/v1/:contact/:_id', controller.updateContact).delete('/api/v1/:contact/:_id', controller.deleteContact)
 }
