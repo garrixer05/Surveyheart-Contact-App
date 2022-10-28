@@ -1,0 +1,43 @@
+<%- include('partials/header'); -%>
+<body>
+  <div class="eContainer">
+    <div class="eContent">
+      <h2>Contact Details</h2>
+      <h4>Name : <%= name %></h4>
+      <h4>Email : <%= email %> </h4>
+      <h4>Contact No : <%= contactNumber %></h4>
+      <h4>Contact type : <%= type %></h4>
+      <div class="btns">
+        <button onclick='editCreate("e")' id="edit" class="btn-btns" type="submit" name="button">Edit</button>
+        <button class="btn-btns" type="submit" name="button">Delete</button>
+      </div>
+      <div id="bg-modal-2" class="bg-modal">
+        <div class="modal-content">
+          <div class="close">
+            +
+          </div>
+          <img src="" alt="No image">
+          <form class="editForm">
+            <label for="">Name</label>
+            <input type="text" name="name" value="" placeholder="Name">
+            <label for="">Email</label>
+            <input type="email" name="email" value="" placeholder="Email">
+            <label for="">Contact No.</label>
+            <input type="text" name="number" value="" placeholder="Contact Number">
+
+
+            <button onclick="update()" class="savebtn" type="submit" name="button">Save</button>
+          </form>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+  </div>
+
+</body>
+<%- include('partials/footer'); -%>

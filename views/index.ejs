@@ -1,0 +1,65 @@
+
+<%- include('partials/header'); -%>
+  <body>
+    <div class="wrapper">
+      <div class="sidebar">
+        <h2><i class="far fa-address-book"></i> Contacts</h2>
+        <ul>
+          <li><a href="/api/v1/allContact"><i class="fas fa-address-book"></i>All Contacts</a></li>
+          <li><a href="/api/v1/personal"><i class="fas fa-user-lock"></i>Personal</a></li>
+          <li><a href="/api/v1/business"><i class="fas fa-briefcase"></i>Business</a></li>
+        </ul>
+        <div class="social_media">
+          <a href="#"></a>
+          <a href="#"></a>
+        </div>
+      </div>
+
+      <div class="main-content">
+        <div class="vertical-menu">
+        <%  if (contacts.length === 0){ %>
+            <h2 class="empty">Empty!</h2>
+        <%  }else{  %>
+          <%  contacts.forEach((i) =>{ %>
+
+              <a href=<%= "/api/v1/allContact/"+i._id %> >  <%= i.name %>  </a>
+
+          <%  }); %>
+
+        <%  } %>
+
+        </div>
+        <div class="btnarea">
+          <button onclick='editCreate("c")' id="create" class="create" type="submit" name="button">Create New Contact</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Section -->
+    <div id="bg-modal-1" class="bg-modal">
+      <div class="modal-content">
+        <div class="close">
+          +
+        </div>
+        <img src="" alt="No image">
+        <form class="" action="/api/v1/:contact" method="post">
+          <input type="text" name="name" value="" placeholder="Name">
+          <input type="text" name="number" value="" placeholder="Contact Number">
+          <input type="email" name="email" value="" placeholder="Email">
+          <label for="">Type</label>
+          <select class="" name="type">
+            <option value="Business">Business</option>
+            <option value="Personal">Personal</option>
+          </select>
+          <button type="submit" name="button">Create Contact</button>
+        </form>
+
+      </div>
+
+    </div>
+
+    
+
+
+  </body>
+<%- include('partials/footer'); -%>
