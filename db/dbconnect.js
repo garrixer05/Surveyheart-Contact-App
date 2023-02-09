@@ -6,7 +6,8 @@ const MONGODB_uri = 'mongodb+srv://garrixer05:ankit123@cluster0.vm0qp.mongodb.ne
 const MONGODB_uri2 = 'mongosh "mongodb+srv://cluster0.vm0qp.mongodb.net/myFirstDatabase" --apiVersion 1 --username garrixer05'
 
 const connectdb = async ()=>{
-  await mongoose.connect(MONGODB_uri || 'mongodb://localhost/Contact', {
+  mongoose.set('strictQuery', false);
+  mongoose.connect('mongodb://localhost/Contact', {
     useNewUrlParser : true,
     useUnifiedTopology : true
   });

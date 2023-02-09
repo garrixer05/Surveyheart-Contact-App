@@ -6,33 +6,22 @@ const wrap = require('../middleware/middleware');
 const contactSchema = new mongoose.Schema ({
   name : String,
   contactNumber : String,
-  email : String
+  email : String,
+  isBusniess : Boolean
 });
-const Business = mongoose.model('Business', contactSchema);
-const Personal = mongoose.model('Personal', contactSchema);
+const Contacts = mongoose.model('Contacts', contactSchema);
 
 
 function dataModels() {
-  return [Business, Personal];
+  return Contacts;
 }
-async function modelSchema(type, contact, req, res) {
-  if (type === 'Business'){
-    var newContact = new Business(contact);
-
-  }
-  else{
-    var newContact = new Personal(contact);
-  }
+async function modelSchema(contact, req, res) {
+  let newContact = new Contacts(contact)
   try{
-    await newContact.save(function (err) {
-      if (!err){
-        console.log('Document Saved');
-        res.redirect('/');
-        }
-    });
+    await newContact.save();
   }
   catch(e){
-    console.log(e);
+    console.log(e.message);
   }
 }
 module.exports = {dataModels, modelSchema}

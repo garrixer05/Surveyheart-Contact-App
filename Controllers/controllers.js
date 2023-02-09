@@ -3,37 +3,62 @@ const modelPackage = require('../models/models');
 const mongoose = require('mongoose')
 
 
-const a = modelPackage.dataModels();
-const B = a[0];
-const P = a[1];
+const Contacts = modelPackage.dataModels();
+let cache = []
 
 
+const getAllContacts = middleware.asyncWrapper(async (req, res, next)=>{
+  if(!cache.length){
+    let docs = await Contacts.find({});
+    cache = docs;
+  }
+  let type = req.params.contact;
+  if(type==="allContact"){
+    res.render('index',{contacts:cache})
+  }else{
+    if(type==="Business"){
+      type=true
+    }
+    let diff = cache.map(el=>el.isBusiness == type)
+    res.render('index', {contacts:diff})
+  }
+})
 
+const saveContact = middleware.asyncWrapper(async (req, res, next)=>{
+  let isBusniess = false
+  if (req.body.type === 'Business'){
+    isBusniess = true
+  }
+  let contact = {
+    name : req.body.name,
+    contactNumber : req.body.number,
+    email : req.body.email,
+    isBusniess : isBusniess
+  }
+
+  await Contacts.collection.insertOne(contact)
+  console.log(contact);
+  res.redirect('/')
+})
 
 const getContact = middleware.asyncWrapper(async (req, res, next)=>{
-
-  const doc = {
-    a:await B.findOne({_id: req.params._id}),
-    b:await P.findOne({_id: req.params._id})
+  
+  let doc = cache.find(el=>el._id == req.params._id)
+  if (doc.isBusiness){
+    doc.isBusiness = "Business"
+  }else{
+    doc.isBusiness = "Personal"
   }
+
   if (doc.length === 0){
     res.status(404).json({msd: 'Contact Not Found'})
   }
-  if (doc.a){
-    res.render('editContact', {
-      name: doc.a.name,
-      email:doc.a.email,
-      contactNumber: doc.a.contactNumber,
-      type : 'Business'
-    });
-  }else{
-    res.render('editContact', {
-      name: doc.b.name,
-      email:doc.b.email,
-      contactNumber: doc.b.contactNumber,
-      type: 'Personal'
-    });
-  }
+  res.render('editContact', {
+    name:doc.name,
+    email:doc.email,
+    contactNumber:doc.contactNumber,
+    type:doc.isBusiness
+  })
 });
 
 const updateContact = middleware.asyncWrapper(async (req, res, next) =>{
@@ -44,34 +69,32 @@ const updateContact = middleware.asyncWrapper(async (req, res, next) =>{
     contactNumber : req.body.number
 
   }
-  console.log(patch);
-  let doc = await B.updateOne({filter}, patch, {
+  let doc = await Contacts.updateOne({filter}, patch, {
     new: true
     // runValidators: true,
     // upsert : true
   });
   next();
-  // res.redirect('/api/v1/allContact/'+filter)
-
 });
 
 
 const deleteContact = middleware.asyncWrapper(async (req, res, next)=>{
   let filter = req.params._id
-  console.log(req.params);
   let _id = mongoose.Types.ObjectId(filter)
   console.log(_id);
-  await B.findOneAndDelete({"_id":_id}, (err, doc)=>{
-    if (err){
-      console.log(err);
-    }
-    console.log(doc);
-  })
-  res.render()
+
+  try {
+    await Contacts.findOneAndDelete( {"_id":_id})
+  } catch (error) {
+    console.log(error.message);  
+  }
+
 })
 
 module.exports = {
   getContact,
   updateContact,
-  deleteContact
+  deleteContact,
+  saveContact,
+  getAllContacts
 }
