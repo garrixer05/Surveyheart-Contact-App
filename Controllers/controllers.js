@@ -13,13 +13,17 @@ const getAllContacts = middleware.asyncWrapper(async (req, res, next)=>{
     cache = docs;
   }
   let type = req.params.contact;
+  console.log(type);
   if(type==="allContact"){
     res.render('index',{contacts:cache})
   }else{
-    if(type==="Business"){
+    if(type==="business"){
       type=true
+    }else{
+      type=false
     }
-    let diff = cache.map(el=>el.isBusiness == type)
+    let diff = cache.filter(el=>el.isBusiness==type)
+    console.log(diff);
     res.render('index', {contacts:diff})
   }
 })
@@ -37,6 +41,7 @@ const saveContact = middleware.asyncWrapper(async (req, res, next)=>{
   }
 
   await Contacts.collection.insertOne(contact)
+  cache.push(contact)
   console.log(contact);
   res.redirect('/')
 })
